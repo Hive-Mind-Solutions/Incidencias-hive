@@ -14,6 +14,7 @@ exports.loginUser = async (req, res) => {
 
     // Buscar al usuario por email
     const user = await User.findOne({ email });
+    const userObject = await user.toObject();
 
     // Validar que el usuario existe y que la contraseña es correcta
     if (!user || !(await user.isValidPassword(password))) {
@@ -22,13 +23,17 @@ exports.loginUser = async (req, res) => {
 
     // Generar un token JWT
     const token = jwt.sign(
-      { id: user.id, email: user.email, userType: user.userType },
+      {
+        id: userObject.id,
+        email: userObject.email,
+        userType: userObject.userType,
+      },
       "eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTY5NjY4MTM5OCwiaWF0IjoxNjk2NjgxMzk4fQ.OkhxSoipAcsJHyMuw9ktBGhMD_pYziO7VeCZO5n4FO8",
       { expiresIn: "1h" }
     );
 
     // Enviar respuesta
-    res.status(200).json({ token, user: { email, userType } });
+    res.status(200).json({ token });
   } catch (error) {
     console.error(error);
     res.status(500).send("Error interno del servidor");

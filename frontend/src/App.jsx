@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import { getCurrentUser } from "./services/authService";
 import "./App.css";
 import jwtDecode from "jwt-decode";
+import Tickets from "./components/TicketTable";
 
 export const AuthContext = createContext();
 
@@ -22,7 +23,9 @@ function App() {
       // Suponiendo que estás utilizando jwt-decode para decodificar el token y obtener datos del usuario
       if (jwt) {
         const userFromToken = jwtDecode(jwt);
+        console.log(userFromToken);
         setUser(userFromToken);
+        localStorage.setItem("userType", userFromToken.userType);
       }
     };
     initAuth();
@@ -39,6 +42,17 @@ function App() {
           <Route
             path="/home"
             element={user ? <Home /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/tickets"
+            element={
+              user &&
+              (user.userType === "admin" || user.userType === "tech") ? (
+                <Tickets />
+              ) : (
+                <Navigate to="/home" />
+              )
+            }
           />
           <Route
             path="/"

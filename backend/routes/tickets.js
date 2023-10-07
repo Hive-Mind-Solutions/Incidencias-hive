@@ -7,5 +7,6 @@ const upload = require("../middleware/upload"); // Importa el middleware de mult
 
 // Usar el controlador para la ruta POST
 router.post("/", upload.array("files"), ticketController.createTicket);
+router.get("/", ticketController.getAllTickets);
 
 module.exports = router;

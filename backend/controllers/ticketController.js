@@ -1,7 +1,7 @@
 const { uploadToGCS } = require("../gcs");
 const Ticket = require("../models/ticket");
 const sendTicketEmail = require("../mailer");
-const getNextSequence = require("./getNextSequence"); // Asumimos que esta función está definida en otro lugar de tu código
+const getNextSequence = require("./getNextSequence");
 
 exports.createTicket = async (req, res) => {
   try {
@@ -16,14 +16,12 @@ exports.createTicket = async (req, res) => {
       fechaApertura,
     } = req.body;
 
-    // Generación del número de ticket
     const ticketType = tipo === "consulta" ? "query" : "incident";
     const ticketNumber = await getNextSequence(ticketType);
     const numeroSolicitud = `${
       ticketType === "query" ? "QUHM" : "INHM"
     }${ticketNumber}`;
 
-    // Subida de imágenes a GCS y obtención de sus URLs
     const imageUploadPromises = req.files.map(async (file) => {
       const fileName = `tickets/${Date.now()}-${file.originalname}`;
       const publicUrl = await uploadToGCS(file.buffer, fileName);
@@ -32,7 +30,6 @@ exports.createTicket = async (req, res) => {
 
     const imageUrls = await Promise.all(imageUploadPromises);
 
-    // Creación del ticket en la base de datos
     const newTicket = await Ticket.create({
       email,
       nombre,
@@ -42,7 +39,7 @@ exports.createTicket = async (req, res) => {
       criticidad,
       descripcion,
       fechaApertura,
-      numeroSolicitud, // Asegúrate de que esto se añade al modelo y la base de datos
+      numeroSolicitud,
       imageUrls,
     });
 
@@ -55,7 +52,7 @@ exports.createTicket = async (req, res) => {
       criticidad,
       descripcion,
       fechaApertura,
-      numeroSolicitud, // Y también aquí, si es necesario para el email
+      numeroSolicitud,
       imageUrls,
     });
 
@@ -71,6 +68,25 @@ exports.createTicket = async (req, res) => {
     res.status(500).json({
       status: "error",
       message: "An error occurred while creating the ticket",
+    });
+  }
+};
+
+exports.getAllTickets = async (req, res) => {
+  try {
+    const tickets = await Ticket.find();
+    res.status(200).json({
+      status: "success",
+      results: tickets.length,
+      data: {
+        tickets,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: "error",
+      message: "An error occurred while fetching the tickets",
     });
   }
 };

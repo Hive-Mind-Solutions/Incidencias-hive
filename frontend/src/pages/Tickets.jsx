@@ -1,11 +1,14 @@
+// Tickets.jsx
 import React from "react";
+import TicketTable from "./TicketTable";
 
-function Tickets() {
+const Tickets = () => {
   return (
     <div>
-      <h2>Incidencias</h2>
+      <h2>Gestión de incidencias</h2>
+      <TicketTable />
     </div>
   );
-}
+};
 
-export default Login;
+export default Tickets;
