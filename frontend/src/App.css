@@ -1,0 +1,136 @@
+:root {
+  --color-primario: #153356;
+  --color-secundario: #f5a623;
+  --color-terciario: #d0021b;
+  --color-cuaternario: #8b572a;
+}
+
+/* Estilos Generales y del Body */
+body {
+  background-color: var(--color-primario);
+  color: white;
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Estilos para los Encabezados */
+h1,
+h2 {
+  color: white;
+}
+
+/* Componente: IntroText */
+h2 span {
+  background-color: white;
+  color: var(--color-primario);
+  padding: 0.1em 0.1em;
+  border-radius: 0.5em;
+}
+
+.word {
+  display: inline-block;
+}
+
+.cursor {
+  height: 1em;
+  width: 1px;
+  background-color: var(--color-primario);
+  animation: blink 0.5s infinite;
+}
+
+/* Componente: CreateTicketButton */
+.create-ticket-button {
+  background-color: white;
+  color: var(--color-primario);
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: 50%;
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  transition: all 0.5s ease-in-out;
+  width: 60px;
+  height: 60px;
+}
+
+.primary-button {
+  width: 100%;
+  background-color: var(--color-primario); /* Utiliza el color principal */
+  color: white; /* Color de texto */
+  border: none;
+  font-size: 20px;
+  height: 3rem;
+  border-radius: 5px; /* Borde redondeado */
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Transición suave al cambiar el color de fondo */
+}
+
+.primary-button:hover {
+  background-color: var(
+    --color-secundario
+  ) !important; /* Cambia el color al pasar el cursor sobre el botón */
+}
+
+.create-ticket-button .plus {
+  display: block;
+  font-size: 2em;
+}
+
+.create-ticket-button .text {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.create-ticket-button:hover {
+  width: 200px;
+  border-radius: 25px;
+}
+
+.create-ticket-button:hover .plus {
+  display: none;
+}
+
+.create-ticket-button:hover .text {
+  display: block;
+}
+
+/*Componente: ticketForm*/
+.centered-container {
+  margin-top: 100px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-card {
+  width: auto;
+  max-width: 100%;
+  margin-top: 0; /* Elimina cualquier margen superior */
+}
+
+.custom-card {
+  min-width: 600px; /* Ajusta el ancho máximo según tus necesidades */
+  margin: 0 auto; /* Centra horizontalmente */
+}
+
+.form-ticket {
+  margin-right: 20px !important;
+}
+
+/* Animación del cursor para IntroText */
+@keyframes blink {
+  50% {
+    background-color: transparent;
+  }
+}
