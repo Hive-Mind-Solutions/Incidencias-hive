@@ -2,9 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Table, Input, Button, Space, Card } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import axios from "axios";
+import ModalDetails from "./ModalDetails";
 
 const TicketTable = () => {
   const [tickets, setTickets] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [ticketDetails, setTicketDetails] = useState(null);
 
   useEffect(() => {
     const fetchTickets = async () => {
@@ -78,6 +81,15 @@ const TicketTable = () => {
     clearFilters();
   };
 
+  const showTicketDetails = (ticket) => {
+    setTicketDetails(ticket);
+    setIsModalVisible(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalVisible(false);
+  };
+
   const columns = [
     {
       title: "Email",
@@ -121,6 +133,15 @@ const TicketTable = () => {
       sorter: (a, b) => a.criticidad.localeCompare(b.criticidad),
       ...getColumnSearchProps("criticidad"),
     },
+    {
+      title: "Detalles",
+      key: "details",
+      render: (text, record) => (
+        <Button type="primary" onClick={() => showTicketDetails(record)}>
+          +
+        </Button>
+      ),
+    },
   ];
 
   return (
@@ -130,6 +151,13 @@ const TicketTable = () => {
       <Card>
         <Table columns={columns} dataSource={tickets} rowKey="_id" />;
       </Card>
+      {ticketDetails && (
+        <ModalDetails
+          isVisible={isModalVisible}
+          details={ticketDetails}
+          onClose={handleModalClose}
+        />
+      )}
     </>
   );
 };
