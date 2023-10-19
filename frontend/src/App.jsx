@@ -8,7 +8,7 @@ import {
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import { getCurrentUser } from "./services/authService";
-import "./App.css";
+import "./styles/App.css";
 import jwtDecode from "jwt-decode";
 import Tickets from "./components/TicketTable";
 
