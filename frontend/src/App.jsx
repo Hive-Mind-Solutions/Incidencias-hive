@@ -8,7 +8,7 @@ import {
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import { getCurrentUser } from "./services/authService";
-import "./styles/App.css";
+import "./styles/App.css"; // Asegúrate de que este archivo exista y esté correctamente estructurado
 import jwtDecode from "jwt-decode";
 import Tickets from "./components/TicketTable";
 
@@ -20,10 +20,8 @@ function App() {
   useEffect(() => {
     const initAuth = () => {
       const jwt = localStorage.getItem("jwtToken");
-      // Suponiendo que estás utilizando jwt-decode para decodificar el token y obtener datos del usuario
       if (jwt) {
         const userFromToken = jwtDecode(jwt);
-        console.log(userFromToken);
         setUser(userFromToken);
         localStorage.setItem("userType", userFromToken.userType);
       }
